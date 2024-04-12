@@ -12,6 +12,14 @@ const Header = () => {
                             href={'/'}
                             className={'transition-colors duration-300 hover:text-red-300'}
                         >
+                            Главная
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href={'/posts'}
+                            className={'transition-colors duration-300 hover:text-red-300'}
+                        >
                             Посты пользователей
                         </Link>
                     </li>
