@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const API_URL: string = 'http://localhost'
+export const API_URL: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost'
 
 export const API_SETTINGS = {
     baseURL: API_URL,
