@@ -1,14 +1,19 @@
 'use client'
-import React, { FC, useState } from 'react'
+
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/app/components/PrimaryButton'
 import { useAppDispatch } from '@/hooks/redux'
-import { login, register as registerUser } from '@/store/reducers/ActionCreators'
+import { register as registerUser } from '@/store/reducers/ActionCreators'
+import Button from '@/components/Button'
 
 type FormInputs = {
+    username: string
+    first_name: string
+    last_name: string
     email: string
     password: string
+    passwordRepeat: string
 }
 const Register = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -16,20 +21,20 @@ const Register = () => {
     const {
         register,
         handleSubmit,
-        reset,
-        formState,
         setError,
-        formState: { isSubmitSuccessful, errors },
+        formState: { errors },
     } = useForm<FormInputs>()
     const dispatch = useAppDispatch()
-    const onSubmit = async ({ email, password }: FormInputs) => {
+    const onSubmit = async ({ username, password, email }: FormInputs) => {
         setIsLoading(true)
         try {
-            const response = await dispatch(login({ email, password }))
+            const response = await dispatch(
+                registerUser({ username, password, email, is_staff: false }),
+            )
             if (response.meta.requestStatus === 'fulfilled') {
-                router.push('/')
+                router.push('/login')
             } else {
-                setError('root', {message: 'Неверный email или пароль!'})
+                setError('root', { message: 'Произошла неизвестная ошибка!' })
             }
         } catch (e) {
             setError('root', { message: 'Произошла неизвестная ошибка!' })
@@ -41,6 +46,16 @@ const Register = () => {
             onSubmit={handleSubmit(onSubmit)}
             className={'flex flex-col items-center gap-2 rounded-xl bg-gray-900 p-6'}
         >
+            <label className={'w-min'}>
+                <input
+                    type="text"
+                    className={'rounded p-2 text-black'}
+                    {...register('username', {
+                        required: 'Обязательное поле',
+                    })}
+                    placeholder={'Логин'}
+                />
+            </label>
             <label className={'w-min'}>
                 <input
                     type="text"
@@ -61,13 +76,24 @@ const Register = () => {
                     className={'rounded p-2 text-black'}
                     {...register('password', {
                         required: 'Обязательное поле',
-                        minLength: 8,
+                        minLength: 6,
                     })}
                     placeholder={'Пароль'}
                 />
             </label>
+            <label className={'w-min'}>
+                <input
+                    type="password"
+                    className={'rounded p-2 text-black'}
+                    {...register('passwordRepeat', {
+                        required: 'Обязательное поле',
+                        minLength: 6,
+                    })}
+                    placeholder={'Пароль ещё раз'}
+                />
+            </label>
             {errors.root && <p>{errors.root.message}</p>}
-            <Button disabled={isLoading}>{isLoading ? 'Загрузка...' : 'Войти'}</Button>
+            <Button disabled={isLoading}>{isLoading ? 'Загрузка...' : 'Создать аккаунт'}</Button>
         </form>
     )
 }

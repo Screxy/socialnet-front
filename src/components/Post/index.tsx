@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { PostDetail } from '@/utils/types'
 import { FC } from 'react'
-import Icon from '@/app/components/Icon'
+import Icon from '@/components/Icon'
 
 type PostProps = {
     post: PostDetail
@@ -10,10 +10,9 @@ type PostProps = {
 export const Post: FC<PostProps> = ({ post, onLikeClick }) => {
     return (
         <div className={'flex flex-col rounded-xl border bg-gray-900/75 px-6 py-4'}>
-            <h2 className={'text-2xl font-bold'}>{post.title}</h2>
-            <p className={'text-xl'}>{post.text}</p>
-            <data className={'text-sm'}>{post.created_at}</data>
-            <div onClick={() => onLikeClick(post)}>
+            <h2 className={'text-xl font-bold'}>{post.title}</h2>
+            <p>{post.text}</p>
+            <div onClick={() => onLikeClick(post)} className={'flex items-center justify-between'}>
                 {post.liked ? (
                     <Icon width={24} height={24}>
                         <svg
@@ -63,6 +62,7 @@ export const Post: FC<PostProps> = ({ post, onLikeClick }) => {
                         </svg>
                     </Icon>
                 )}
+                <data className={'text-end text-sm'}>{post.created_at}</data>
             </div>
         </div>
     )

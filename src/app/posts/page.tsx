@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { PostDetail } from '@/utils/types'
-import Post from '@/app/components/Post'
+import Post from '@/components/Post'
 import { api } from '@/utils/api'
 
 export default function Posts() {
@@ -32,9 +32,9 @@ export default function Posts() {
         fetchPosts()
     }, [])
     return (
-        <div className={'mt-2'}>
+        <div className={'mt-2 mx-auto max-w-screen-sm'}>
             {!posts && <p>Постов нет(</p>}
-            <ul>
+            <ul className={''}>
                 {posts.map((post) => (
                     <li className={'mt-4'} key={post.id}>
                         <Post post={post} onLikeClick={onClickLikeHandler} />

@@ -1,11 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
+import AuthControls from '@/components/AuthControls'
 
 const Header = () => {
     return (
         <header className={'bg-gray-900'}>
-            <div className="container mx-auto py-2">
-                <span>ScrScr - социальная сеть</span>
+            <div className="container mx-auto py-2 flex items-center px-4 justify-between">
+                <span >ScrScr</span>
                 <ul className={'flex gap-2'}>
                     <li>
                         <Link
@@ -23,23 +24,8 @@ const Header = () => {
                             Посты пользователей
                         </Link>
                     </li>
-                    <li>
-                        <Link
-                            href={'/login'}
-                            className={'transition-colors duration-300 hover:text-red-300'}
-                        >
-                            Войти
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href={'/register'}
-                            className={'transition-colors duration-300 hover:text-red-300'}
-                        >
-                            Зарегистрироваться
-                        </Link>
-                    </li>
                 </ul>
+                <AuthControls/>
             </div>
         </header>
     )
