@@ -14,6 +14,7 @@ export type Post = {
     text: string
     created_at: string
     author: Pick<User, 'id'>
+    liked: boolean
 }
 
 export type PostDetail = Post

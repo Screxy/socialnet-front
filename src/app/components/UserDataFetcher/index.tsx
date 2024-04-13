@@ -6,6 +6,7 @@ import {useEffect} from "react";
 import {useRouter} from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux'
 import { getAccessToken } from '@/utils/helpers'
+import { fetchUserData, logout } from '@/store/reducers/ActionCreators'
 
 
 const UserDataFetcher = () => {
@@ -16,9 +17,9 @@ const UserDataFetcher = () => {
 
     useEffect(() => {
         if (token && !user.id) {
-            // dispatch(fetchUserData());
+            dispatch(fetchUserData());
         } else if (!token) {
-            // dispatch(logout());
+            dispatch(logout());
             router.push("/login");
         }
     }, [user.id, dispatch, router, token]);

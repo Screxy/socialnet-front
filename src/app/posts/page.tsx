@@ -17,6 +17,17 @@ export default function Posts() {
                 console.log(error)
             })
     }
+    const onClickLikeHandler = (post: PostDetail) => {
+        api.post(`/post/${post.id}/setLike`, {
+            like: !post.liked,
+        })
+            .then(() => {
+                fetchPosts()
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
     useEffect(() => {
         fetchPosts()
     }, [])
@@ -26,7 +37,7 @@ export default function Posts() {
             <ul>
                 {posts.map((post) => (
                     <li className={'mt-4'} key={post.id}>
-                        <Post post={post} />
+                        <Post post={post} onLikeClick={onClickLikeHandler} />
                     </li>
                 ))}
             </ul>
