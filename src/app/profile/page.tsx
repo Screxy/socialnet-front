@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { PostDetail } from '@/utils/types'
+import { NewPost, PostDetail } from '@/utils/types'
 import Post from '@/components/Post'
 import { api } from '@/utils/api'
 import { useAppSelector } from '@/hooks/redux'
 import ProfileCard from '@/components/ProfileCard'
+import PostForm from '@/components/Post/PostForm'
 
 export default function Posts() {
     const { user } = useAppSelector((state) => state.auth)
@@ -14,7 +15,7 @@ export default function Posts() {
         api.get<PostDetail[]>('/post/my')
             .then((response) => {
                 const posts = response.data
-                setPosts(posts)
+                setPosts(posts.reverse())
             })
             .catch((error) => {
                 console.log(error)
@@ -31,13 +32,22 @@ export default function Posts() {
                 console.log(error)
             })
     }
+    const onFormSubmitHandler = async (newPost: NewPost) => {
+        console.log('asd')
+        try {
+            const {data} = await api.post<PostDetail>('post', newPost)
+            setPosts([data, ...posts])
+        } catch (e) {
+            console.log(e)
+        }
+    }
     useEffect(() => {
         fetchPosts()
     }, [])
     return (
         <div className={'mt-2 flex items-center flex-col'}>
-            <ProfileCard user={user} className={'max-w-screen-sm '} />
-
+            <ProfileCard user={user} />
+            <PostForm onFormSubmit={onFormSubmitHandler} className={'mt-4 '}/>
             <span>Ваши посты:</span>
             <div className={'mt-2 w-full'}>
                 {!posts && <p>Постов нет(</p>}

@@ -11,7 +11,7 @@ export default function Posts() {
         api.get<PostDetail[]>('/post')
             .then((response) => {
                 const posts = response.data
-                setPosts(posts)
+                setPosts(posts.reverse())
             })
             .catch((error) => {
                 console.log(error)

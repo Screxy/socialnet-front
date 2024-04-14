@@ -17,4 +17,6 @@ export type Post = {
     liked: boolean
 }
 
+export type NewPost = Pick<Post, 'text' | 'title'>
+
 export type PostDetail = Post
