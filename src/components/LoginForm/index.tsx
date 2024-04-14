@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { useAppDispatch } from '@/hooks/redux'
@@ -11,7 +11,12 @@ type FormInputs = {
     email: string
     password: string
 }
-const Register = () => {
+
+type LoginFormProps = {
+    className?: string
+}
+
+const LoginForm: FC<LoginFormProps> = ({ className }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const router = useRouter()
     const {
@@ -38,9 +43,10 @@ const Register = () => {
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className={'flex flex-col items-center gap-2 rounded-xl bg-gray-900 p-6'}
+            className={`flex w-full flex-col items-center gap-2 rounded-xl bg-gray-900 p-6 ${className}`}
         >
             <label className={'w-min'}>
+                <span>Email</span>
                 <input
                     type="text"
                     className={'rounded p-2 text-black'}
@@ -54,21 +60,27 @@ const Register = () => {
                     placeholder={'Почта'}
                 />
             </label>
+            {errors.email && <p className={'text-center text-red-500'}>{errors.email.message}</p>}
+
             <label className={'w-min'}>
+                <span>Пароль</span>
                 <input
                     type="password"
                     className={'rounded p-2 text-black'}
                     {...register('password', {
                         required: 'Обязательное поле',
-                        minLength: 8,
+                        minLength: { value: 6, message: 'Пароль должен быть длиннее 6 символов' },
                     })}
                     placeholder={'Пароль'}
                 />
             </label>
+            {errors.password && (
+                <p className={'text-center text-red-500'}>{errors.password.message}</p>
+            )}
             {errors.root && <p>{errors.root.message}</p>}
             <Button disabled={isLoading}>{isLoading ? 'Загрузка...' : 'Войти'}</Button>
         </form>
     )
 }
 
-export default Register
+export default LoginForm
