@@ -25,7 +25,6 @@ const PostForm: FC<PostFormProps> = ({ onFormSubmit, className }) => {
     } = useForm<PostFormInputs>()
     const onSubmit = async ({ title, text }: PostFormInputs) => {
         setIsLoading(true)
-        console.log('asdasd')
         await onFormSubmit({ title, text })
         setIsLoading(false)
         reset()

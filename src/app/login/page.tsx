@@ -7,9 +7,7 @@ const Page = () => {
     return (
         <section className={'mt-auto flex h-fit flex-col items-center justify-center'}>
             <h2 className={'text-xl font-bold'}>Авторизация</h2>
-            <div className={'mt-2'}>
-                <LoginForm />
-            </div>
+            <LoginForm className={'mt-2 max-w-[260px]'} />
         </section>
     )
 }

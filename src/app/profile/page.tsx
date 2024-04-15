@@ -33,7 +33,6 @@ export default function Posts() {
             })
     }
     const onFormSubmitHandler = async (newPost: NewPost) => {
-        console.log('asd')
         try {
             const {data} = await api.post<PostDetail>('post', newPost)
             setPosts([data, ...posts])
